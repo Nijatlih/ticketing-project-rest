@@ -3,7 +3,7 @@ package com.cydeo.dto;
 import com.cydeo.enums.Gender;
 import lombok.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
