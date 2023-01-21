@@ -1,17 +1,14 @@
 package com.cydeo.entity;
 
 import com.cydeo.enums.Gender;
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
-import java.util.Objects;
+import jakarta.persistence.*;
 
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 @Entity
 @Table(name = "users")
 @Where(clause = "is_deleted=false")
