@@ -1,37 +1,22 @@
 package com.cydeo.dto;
 
 import com.cydeo.enums.Status;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @NoArgsConstructor
-@AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class ProjectDTO {
 
     private Long id;
-
-
     private String projectName;
-
-
     private String projectCode;
-
-
     private UserDTO assignedManager;
-
-
     private LocalDate startDate;
-
-
     private LocalDate endDate;
-
-
     private String projectDetail;
-
     private Status projectStatus;
 
     private int completeTaskCounts;
