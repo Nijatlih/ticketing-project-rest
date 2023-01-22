@@ -1,6 +1,7 @@
 package com.cydeo.dto;
 
 import com.cydeo.enums.Status;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -19,7 +20,9 @@ public class ProjectDTO {
     private String projectDetail;
     private Status projectStatus;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int completeTaskCounts;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int unfinishedTaskCounts;
 
 
