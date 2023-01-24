@@ -10,6 +10,7 @@ import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +23,14 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final ProjectService projectService;
     private final TaskService taskService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, ProjectService projectService, TaskService taskService) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, ProjectService projectService, TaskService taskService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.projectService = projectService;
         this.taskService = taskService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -49,7 +52,10 @@ public class UserServiceImpl implements UserService {
 
         dto.setEnabled(true);
 
+        String encodedPassword = passwordEncoder.encode(dto.getPassWord());
+
         User obj = userMapper.convertToEntity(dto);
+        obj.setPassWord(encodedPassword);
 
         userRepository.save(obj);
 
@@ -92,14 +98,17 @@ public class UserServiceImpl implements UserService {
     private boolean checkIfUserCanBeDeleted(User user) {
 
         switch (user.getRole().getDescription()) {
-            case "Manager":
+            case "Manager" -> {
                 List<ProjectDTO> projectDTOList = projectService.readAllByAssignedManager(user);
                 return projectDTOList.size() == 0;
-            case "Employee":
+            }
+            case "Employee" -> {
                 List<TaskDTO> taskDTOList = taskService.readAllByAssignedEmployee(user);
                 return taskDTOList.size() == 0;
-            default:
+            }
+            default -> {
                 return true;
+            }
         }
 
     }
@@ -111,4 +120,5 @@ public class UserServiceImpl implements UserService {
 
         return users.stream().map(userMapper::convertToDTO).collect(Collectors.toList());
     }
+
 }
