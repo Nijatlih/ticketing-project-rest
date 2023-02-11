@@ -7,8 +7,10 @@ import lombok.*;
 import java.time.LocalDate;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class ProjectDTO {
 
     private Long id;
